@@ -29,7 +29,7 @@ class EventController extends Controller
             }
         }
 
-        $events = $query->orderByDesc('timestamp')->limit(500)->get();
+        $events = $query->orderByDesc('timestamp')->limit((int) config('georisk.events_limit', 1000))->get();
 
         $features = $events->map(fn (Event $event) => [
             'type' => 'Feature',

@@ -350,7 +350,11 @@ onMounted(() => {
     })
 
     map.addControl(new mapboxgl.NavigationControl(), window.innerWidth < 1024 ? 'top-right' : 'top-left')
-    map.on('load', setupLayers)
+    map.on('load', () => {
+        setupLayers()
+        // Ensure map fills container after layout settles
+        setTimeout(() => map?.resize(), 100)
+    })
 })
 
 onUnmounted(() => {
@@ -363,7 +367,7 @@ onUnmounted(() => {
         <div ref="mapContainer" class="h-full w-full" />
 
         <!-- View mode toggles -->
-        <div id="heatmap-toggle" class="absolute top-14 left-2 lg:top-3 lg:left-14 z-10 flex gap-1.5">
+        <div id="heatmap-toggle" class="absolute top-[6.5rem] left-2 lg:top-3 lg:left-14 z-10 flex gap-1.5">
             <button
                 class="px-3 py-2 lg:py-1.5 rounded-lg text-xs font-medium border transition-colors shadow-lg min-h-[36px] lg:min-h-0"
                 :class="viewMode === 'markers'

@@ -18,7 +18,7 @@ class DashboardController extends Controller
             $query->ofType($request->input('type'));
         }
 
-        $events = $query->orderByDesc('timestamp')->limit(500)->get();
+        $events = $query->orderByDesc('timestamp')->limit((int) config('georisk.events_limit', 1000))->get();
 
         $criticalEvents = Event::where('severity', '>=', 4)
             ->orderByDesc('timestamp')

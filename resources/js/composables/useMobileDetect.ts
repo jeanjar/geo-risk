@@ -1,10 +1,15 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
-export function useMobileDetect(breakpoint = 1024) {
-    const isMobile = ref(false)
-    let mql: MediaQueryList
+function getInitialValue(breakpoint: number): boolean {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth < breakpoint
+}
 
-    function update(e: MediaQueryListEvent | MediaQueryList) {
+export function useMobileDetect(breakpoint = 1024) {
+    const isMobile = ref(getInitialValue(breakpoint))
+    let mql: MediaQueryList | null = null
+
+    function update(e: MediaQueryListEvent) {
         isMobile.value = e.matches
     }
 
