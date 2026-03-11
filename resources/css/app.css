@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+
+@source '../**/*.blade.php';
+@source '../**/*.vue';
+@source '../**/*.ts';
+
+/* Driver.js dark theme */
+.driver-popover.georisk-tour {
+    background-color: #1e293b;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #f3f4f6;
+    box-shadow:
+        0 0 20px rgba(59, 130, 246, 0.15),
+        0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.driver-popover.georisk-tour .driver-popover-title {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.driver-popover.georisk-tour .driver-popover-description {
+    color: #d1d5db;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.driver-popover.georisk-tour .driver-popover-progress-text {
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.driver-popover.georisk-tour .driver-popover-prev-btn {
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    color: #e5e7eb;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+.driver-popover.georisk-tour .driver-popover-prev-btn:hover {
+    background-color: #4b5563;
+}
+
+.driver-popover.georisk-tour .driver-popover-next-btn,
+.driver-popover.georisk-tour .driver-popover-close-btn-text {
+    background-color: #3b82f6;
+    border: none;
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.driver-popover.georisk-tour .driver-popover-next-btn:hover,
+.driver-popover.georisk-tour .driver-popover-close-btn-text:hover {
+    background-color: #2563eb;
+}
+
+.driver-popover.georisk-tour .driver-popover-arrow-side-left .driver-popover-arrow,
+.driver-popover.georisk-tour .driver-popover-arrow-side-right .driver-popover-arrow,
+.driver-popover.georisk-tour .driver-popover-arrow-side-top .driver-popover-arrow,
+.driver-popover.georisk-tour .driver-popover-arrow-side-bottom .driver-popover-arrow {
+    border-color: #4b5563;
+}
+
+/* Risk summary markdown */
+.prose.prose-invert h3 {
+    color: #e2e8f0;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.prose.prose-invert h3:first-child {
+    margin-top: 0;
+}
+
+.prose.prose-invert ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 8px 0;
+}
+
+.prose.prose-invert li {
+    margin: 4px 0;
+    color: #cbd5e1;
+}
+
+.prose.prose-invert strong {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+.prose.prose-invert p {
+    margin: 8px 0;
+}
+
+/* Glow around highlighted element */
+.driver-active-element {
+    outline: 2px solid rgba(59, 130, 246, 0.8) !important;
+    outline-offset: 4px;
+    box-shadow:
+        0 0 0 4px rgba(59, 130, 246, 0.15),
+        0 0 30px rgba(59, 130, 246, 0.3),
+        0 0 60px rgba(59, 130, 246, 0.1) !important;
+    border-radius: 10px;
+}
