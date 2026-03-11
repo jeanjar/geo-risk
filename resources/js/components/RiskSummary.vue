@@ -68,7 +68,7 @@ onMounted(async () => {
 
 <template>
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" @click.self="emit('close')">
-        <div class="bg-gray-900 border border-gray-700/50 rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+        <div class="bg-gray-900 border border-gray-700/50 rounded-xl shadow-2xl w-full max-w-full lg:max-w-lg mx-3 lg:mx-4 overflow-hidden">
             <!-- Header -->
             <div class="flex items-center justify-between px-5 py-4 border-b border-gray-800">
                 <div class="flex items-center gap-2.5">
@@ -110,7 +110,7 @@ onMounted(async () => {
             </div>
 
             <!-- Body -->
-            <div class="px-5 py-4 max-h-[60vh] overflow-y-auto">
+            <div class="px-5 py-4 max-h-[70vh] lg:max-h-[60vh] overflow-y-auto">
                 <!-- Loading -->
                 <div v-if="loading" class="space-y-3 py-4">
                     <div class="flex items-center gap-2 text-sm text-gray-400">

@@ -1,10 +1,18 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { typeIcons, typeDotColors } from '@/constants/eventTypes'
 
 defineProps<{
     eventTypes: string[]
     avgSeverityByType: Record<string, number>
 }>()
+
+const expanded = ref(false)
+
+function expand() { expanded.value = true }
+function collapse() { expanded.value = false }
+
+defineExpose({ expand, collapse })
 
 const severityScale = [
     { label: 'Low', value: '0–2', color: '#22c55e' },
@@ -21,64 +29,75 @@ const clusterScale = [
 </script>
 
 <template>
-    <div id="map-legend" class="absolute bottom-4 left-3 z-10 flex flex-col gap-2">
-        <!-- Severity legend -->
-        <div class="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-700/50 px-3 py-2.5 shadow-lg">
-            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Severity</div>
-            <div class="flex items-center gap-0.5">
-                <div
-                    v-for="s in severityScale"
-                    :key="s.label"
-                    class="flex-1 flex flex-col items-center"
-                >
-                    <div
-                        class="w-full h-2 rounded-sm"
-                        :style="{ backgroundColor: s.color }"
-                    />
-                    <span class="text-[8px] text-gray-500 mt-0.5">{{ s.value }}</span>
-                </div>
-            </div>
-            <div class="flex justify-between mt-0.5">
-                <span class="text-[8px] text-gray-500">Low</span>
-                <span class="text-[8px] text-gray-500">Critical</span>
-            </div>
-        </div>
+    <div id="map-legend" class="absolute bottom-16 left-2 lg:bottom-4 lg:left-3 z-10 flex flex-col gap-2">
+        <!-- Mobile toggle button -->
+        <button
+            class="lg:hidden self-start px-2.5 py-1.5 rounded-lg bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 text-[10px] text-gray-400 uppercase tracking-wider font-semibold shadow-lg"
+            @click="expanded = !expanded"
+        >
+            Legend {{ expanded ? '▾' : '▸' }}
+        </button>
 
-        <!-- Cluster legend -->
-        <div class="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-700/50 px-3 py-2.5 shadow-lg">
-            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Clusters</div>
-            <div class="flex items-center gap-2">
-                <div
-                    v-for="c in clusterScale"
-                    :key="c.label"
-                    class="flex items-center gap-1"
-                >
+        <!-- Legend cards -->
+        <div :class="expanded ? 'flex flex-col gap-2' : 'hidden lg:flex lg:flex-col lg:gap-2'">
+            <!-- Severity legend -->
+            <div class="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-700/50 px-3 py-2.5 shadow-lg">
+                <div class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Severity</div>
+                <div class="flex items-center gap-0.5">
                     <div
-                        class="w-3 h-3 rounded-full border border-gray-600"
-                        :style="{ backgroundColor: c.color }"
-                    />
-                    <span class="text-[9px] text-gray-400">{{ c.label }}</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Event types legend -->
-        <div class="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-700/50 px-3 py-2.5 shadow-lg">
-            <div class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Event Types</div>
-            <div class="grid grid-cols-2 gap-x-3 gap-y-1">
-                <div
-                    v-for="type in eventTypes"
-                    :key="type"
-                    class="flex items-center gap-1.5"
-                >
-                    <span class="text-xs">{{ typeIcons[type] || '📍' }}</span>
-                    <span class="text-[9px] text-gray-300 capitalize">{{ type.replace('_', ' ') }}</span>
-                    <span
-                        v-if="avgSeverityByType[type]"
-                        class="text-[8px] text-gray-500 ml-auto"
+                        v-for="s in severityScale"
+                        :key="s.label"
+                        class="flex-1 flex flex-col items-center"
                     >
-                        avg {{ avgSeverityByType[type] }}
-                    </span>
+                        <div
+                            class="w-full h-2 rounded-sm"
+                            :style="{ backgroundColor: s.color }"
+                        />
+                        <span class="text-[8px] text-gray-500 mt-0.5">{{ s.value }}</span>
+                    </div>
+                </div>
+                <div class="flex justify-between mt-0.5">
+                    <span class="text-[8px] text-gray-500">Low</span>
+                    <span class="text-[8px] text-gray-500">Critical</span>
+                </div>
+            </div>
+
+            <!-- Cluster legend -->
+            <div class="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-700/50 px-3 py-2.5 shadow-lg">
+                <div class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Clusters</div>
+                <div class="flex items-center gap-2">
+                    <div
+                        v-for="c in clusterScale"
+                        :key="c.label"
+                        class="flex items-center gap-1"
+                    >
+                        <div
+                            class="w-3 h-3 rounded-full border border-gray-600"
+                            :style="{ backgroundColor: c.color }"
+                        />
+                        <span class="text-[9px] text-gray-400">{{ c.label }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event types legend -->
+            <div class="bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-700/50 px-3 py-2.5 shadow-lg">
+                <div class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-2">Event Types</div>
+                <div class="grid grid-cols-2 gap-x-3 gap-y-1">
+                    <div
+                        v-for="type in eventTypes"
+                        :key="type"
+                        class="flex items-center gap-1.5"
+                    >
+                        <span class="text-xs">{{ typeIcons[type] || '📍' }}</span>
+                        <span class="text-[9px] text-gray-300 capitalize">{{ type.replace('_', ' ') }}</span>
+                        <span
+                            v-if="avgSeverityByType[type]"
+                            class="text-[8px] text-gray-500 ml-auto"
+                        >
+                            avg {{ avgSeverityByType[type] }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

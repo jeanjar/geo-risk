@@ -2,13 +2,16 @@
 import type { GeoEvent } from '@/types'
 import { typeIcons } from '@/constants/eventTypes'
 
-defineProps<{
+const props = withDefaults(defineProps<{
     total: number
     critical: number
     last24h: number
     byType: Record<string, number>
     criticalEvents: GeoEvent[]
-}>()
+    compact?: boolean
+}>(), {
+    compact: false,
+})
 
 const emit = defineEmits<{
     selectEvent: [event: GeoEvent]
@@ -16,7 +19,36 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <div id="stats-bar" class="flex items-stretch gap-3 px-4 py-3 border-b border-gray-800 bg-gray-900/80 overflow-x-auto">
+    <!-- Compact mobile version -->
+    <div v-if="compact" id="stats-bar-mobile" class="flex items-center gap-1.5 bg-gray-900/85 backdrop-blur-sm rounded-xl px-2.5 py-1.5 border border-gray-700/50 shadow-lg overflow-x-auto">
+        <div class="flex items-center gap-1.5 px-2 py-1 bg-gray-800/60 rounded-lg shrink-0">
+            <div class="text-sm font-bold">{{ total }}</div>
+            <div class="text-[9px] text-gray-400 uppercase">Events</div>
+        </div>
+        <div class="flex items-center gap-1.5 px-2 py-1 bg-gray-800/60 rounded-lg shrink-0">
+            <div class="text-sm font-bold text-blue-400">{{ last24h }}</div>
+            <div class="text-[9px] text-gray-400 uppercase">24h</div>
+        </div>
+        <div class="flex items-center gap-1.5 px-2 py-1 bg-gray-800/60 rounded-lg border border-red-500/30 shrink-0">
+            <div class="text-sm font-bold text-red-400">{{ critical }}</div>
+            <div class="text-[9px] text-gray-400 uppercase">Critical</div>
+        </div>
+        <div v-if="criticalEvents.length > 0" class="flex items-center gap-1 ml-1 overflow-x-auto">
+            <span class="text-[9px] text-red-400 uppercase font-semibold shrink-0 animate-pulse">!</span>
+            <button
+                v-for="event in criticalEvents.slice(0, 1)"
+                :key="event.id"
+                class="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/10 border border-red-500/20 rounded text-[10px] text-red-300 shrink-0"
+                @click="emit('selectEvent', event)"
+            >
+                <span>{{ typeIcons[event.type] || '📍' }}</span>
+                <span class="truncate max-w-[100px]">{{ event.location || event.description }}</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Full desktop version -->
+    <div v-else id="stats-bar" class="flex items-stretch gap-3 px-4 py-3 border-b border-gray-800 bg-gray-900/80 overflow-x-auto">
         <!-- KPI Cards -->
         <div class="flex items-center gap-2 px-3 py-2 bg-gray-800/60 rounded-lg border border-gray-700/50 shrink-0">
             <div class="text-xl font-bold">{{ total }}</div>

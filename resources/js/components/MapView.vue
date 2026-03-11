@@ -349,7 +349,7 @@ onMounted(() => {
         zoom: 2,
     })
 
-    map.addControl(new mapboxgl.NavigationControl(), 'top-left')
+    map.addControl(new mapboxgl.NavigationControl(), window.innerWidth < 1024 ? 'top-right' : 'top-left')
     map.on('load', setupLayers)
 })
 
@@ -363,9 +363,9 @@ onUnmounted(() => {
         <div ref="mapContainer" class="h-full w-full" />
 
         <!-- View mode toggles -->
-        <div id="heatmap-toggle" class="absolute top-3 left-14 z-10 flex gap-1.5">
+        <div id="heatmap-toggle" class="absolute top-14 left-2 lg:top-3 lg:left-14 z-10 flex gap-1.5">
             <button
-                class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors shadow-lg"
+                class="px-3 py-2 lg:py-1.5 rounded-lg text-xs font-medium border transition-colors shadow-lg min-h-[36px] lg:min-h-0"
                 :class="viewMode === 'markers'
                     ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
                     : 'bg-gray-900/80 text-gray-300 border-gray-700/50 hover:bg-gray-800'"
@@ -374,7 +374,7 @@ onUnmounted(() => {
                 Markers
             </button>
             <button
-                class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors shadow-lg"
+                class="px-3 py-2 lg:py-1.5 rounded-lg text-xs font-medium border transition-colors shadow-lg min-h-[36px] lg:min-h-0"
                 :class="viewMode === 'heatmap'
                     ? 'bg-orange-500/20 text-orange-300 border-orange-500/40'
                     : 'bg-gray-900/80 text-gray-300 border-gray-700/50 hover:bg-gray-800'"
@@ -383,7 +383,7 @@ onUnmounted(() => {
                 Heatmap
             </button>
             <button
-                class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors shadow-lg"
+                class="px-3 py-2 lg:py-1.5 rounded-lg text-xs font-medium border transition-colors shadow-lg min-h-[36px] lg:min-h-0"
                 :class="viewMode === 'h3'
                     ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
                     : 'bg-gray-900/80 text-gray-300 border-gray-700/50 hover:bg-gray-800'"

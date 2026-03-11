@@ -63,7 +63,7 @@ function severityBarColor(severity: number | null): string {
             <button
                 v-for="event in events"
                 :key="event.id"
-                class="w-full text-left p-2.5 rounded-lg transition-colors border"
+                class="w-full text-left p-3 lg:p-2.5 rounded-lg transition-colors border min-h-[48px] lg:min-h-0"
                 :class="selectedEvent?.id === event.id
                     ? 'bg-white/10 border-white/20'
                     : 'bg-gray-800/30 border-transparent hover:bg-gray-800/60'"
